@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=can-base.X
+PROJECTNAME=mcu-end-to-end-can-demo
 
 # Active Configuration
 DEFAULTCONF=default
