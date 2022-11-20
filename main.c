@@ -5,7 +5,7 @@
  * Created on January 8, 2021, 5:25 PM
  */
 
-#include "mcc_generated_files/mcc.h"
+#include "mcc_generated_files/mcc.h" 
 
 /*
                          Main application
@@ -20,11 +20,14 @@ void main(void)
 
     // Disable the Global Interrupts
     //INTERRUPT_GlobalInterruptDisable();
-    
-
+    int8_t counter = 0;
     while (1)
     {
-        __delay_ms(1000);
-        printf("Hello\n\r");
+        //__delay_ms(100);
+        // Writing -> serial bus 
+        printf("%d\n", counter);
+        counter++;
+        // Reading <- serial bus
+        
     }
 }
