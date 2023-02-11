@@ -41,11 +41,21 @@ void main(void)
     uint8_t data[32] = CAN_TX_BUFF;
 
     SYSTEM_Initialize();
-
+    printf("1\r\n");
+    
+    // Set the mode to configure the CAN1; Explicit at the moment: move to Initialize later;
+    CAN1_OperationModeSet(CAN_CONFIGURATION_MODE);
+    
+    // Checks if the mode is set to configure
     if(CAN_CONFIGURATION_MODE == CAN1_OperationModeGet())
     {
+        printf("2\r\n");
+        // Change the mode to set to can normal 2.0
         if(CAN_OP_MODE_REQUEST_SUCCESS == CAN1_OperationModeSet(CAN_NORMAL_2_0_MODE))
         {
+            printf("3\r\n");
+            
+            // Configure the format of the message
             msg.msgId = 0x1FFFF;
             msg.field.formatType = CAN_FD_FORMAT;
             msg.field.brs = CAN_NON_BRS_MODE;
@@ -54,12 +64,14 @@ void main(void)
             msg.field.dlc = DLC_32;
             msg.data = data;
 
-            if(CAN_TX_FIFO_AVAILABLE == (CAN1_TransmitFIFOStatusGet(CAN1_TX_TXQ) & CAN_TX_FIFO_AVAILABLE))
+            // Check if the channel is available for transmission
+            while(CAN_TX_FIFO_AVAILABLE == (CAN1_TransmitFIFOStatusGet(CAN1_TX_TXQ) & CAN_TX_FIFO_AVAILABLE))
             {
+                printf("4\r\n");
+                // Transmits the data to the determined channel
                 CAN1_Transmit(CAN1_TX_TXQ, &msg);
+                __delay_ms(1000);
             }
         }
     }
-
-    while(1);
 }
